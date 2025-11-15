@@ -59,10 +59,15 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GH_REPO: ${{ github.repository }}
-      - name: Return test result
-        if: ${{ steps.run-tests.outcome == 'failure' || steps.check-yaml.outcome == 'failure' }}
+      - name: Check unit tests result
+        if: ${{ steps.run-tests.outcome == 'failure' }}
         run: |
-          echo "Tests failed"
+          echo "Unit tests failed"
+          exit 1
+      - name: Check YAML format result
+        if: ${{ steps.check-yaml.outcome == 'failure' }}
+        run: |
+          echo "YAML format failed"
           exit 1
   e2e-test:
     runs-on: ubuntu-24.04
