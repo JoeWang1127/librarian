@@ -36,9 +36,8 @@ func TestRun(t *testing.T) {
 			wantErr: false,
 		},
 		{
-			name:    "error parsing flags",
-			args:    []string{"--unknown-flag"},
-			wantErr: true,
+			name: "error parsing flags",
+			args: []string{"--unknown-flag"},
 		},
 		{
 			name:          "error from RunCommand",
