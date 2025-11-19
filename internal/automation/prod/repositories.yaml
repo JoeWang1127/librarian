@@ -1,4 +1,4 @@
-librarian-image-sha: sha256:8ae52838e466022dd701cab8c3f002cb727b3e0e5688864b3d0d68f645541035
+librarian-image-sha: sha256:63cea3806aa19081a1b2f85623529a42e28d3d446bd34f12bfad9c792f879ed4
 repositories:
   - name: "google-cloud-go"
     full-name: https://github.com/JoeWang1127/google-cloud-go
