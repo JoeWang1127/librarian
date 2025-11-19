@@ -43,6 +43,7 @@ type RepositoryConfig struct {
 
 // RepositoriesConfig represents all the registered librarian GitHub repositories.
 type RepositoriesConfig struct {
+	ImageSHA     string              `yaml:"librarian-image-sha"`
 	Repositories []*RepositoryConfig `yaml:"repositories"`
 }
 

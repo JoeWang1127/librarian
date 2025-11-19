@@ -107,6 +107,7 @@ func runCommandWithConfig(ctx context.Context, client CloudBuildClient, ghClient
 		}
 
 		substitutions := map[string]string{
+			"_IMAGE_SHA":                config.ImageSHA,
 			"_REPOSITORY":               repository.Name,
 			"_FULL_REPOSITORY":          gitUrl,
 			"_GITHUB_TOKEN_SECRET_NAME": repository.SecretName,
