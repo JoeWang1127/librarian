@@ -29,7 +29,7 @@ steps:
       - -c
       - |
         _IMAGE_SHA=$(cat /workspace/librarian_image_sha.txt | tr -d '[:space:]')
-        docker run "us-central1-docker.pkg.dev/librarian-dev-joewa-u0cll5/images-dev/librarian@${_IMAGE_SHA}" generate --help
+        docker run --rm "us-central1-docker.pkg.dev/librarian-dev-joewa-u0cll5/images-dev/librarian@${_IMAGE_SHA}" generate --help
   - id: test-release-stage
     name: gcr.io/cloud-builders/docker
     entrypoint: bash
@@ -38,6 +38,6 @@ steps:
       - -c
       - |
         _IMAGE_SHA=$(cat /workspace/librarian_image_sha.txt | tr -d '[:space:]')
-        docker run "us-central1-docker.pkg.dev/librarian-dev-joewa-u0cll5/images-dev/librarian@${_IMAGE_SHA}" release stage --help
+        docker run --rm "us-central1-docker.pkg.dev/librarian-dev-joewa-u0cll5/images-dev/librarian@${_IMAGE_SHA}" release stage --help
 options:
   logging: CLOUD_LOGGING_ONLY
