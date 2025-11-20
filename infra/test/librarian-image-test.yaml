@@ -19,12 +19,12 @@ steps:
       - 'https://github.com/mikefarah/yq/releases/download/v4.44.2/yq_linux_amd64' # Get the latest Linux binary
       - '-o'
       - '/usr/local/bin/yq' # Save it to a directory on the PATH
-  - name: bash
-    waitFor: ['install-yq']
-    args:
-      - 'chmod'
-      - '+x'
-      - '/usr/local/bin/yq'
+#  - name: bash
+#    waitFor: ['install-yq']
+#    args:
+#      - 'chmod'
+#      - '+x'
+#      - '/usr/local/bin/yq'
   - id: get-librarian-image-sha
     name: bash
     waitFor: ['install-yq']
