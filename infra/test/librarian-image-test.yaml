@@ -13,13 +13,11 @@
 # limitations under the License.
 steps:
   - id: get-librarian-image-sha
-    name: bash
+    name: mikefarah/yq:4
     waitFor: ['-']
     args:
-      - '-c'
-      - |
-        curl 'https://github.com/mikefarah/yq/releases/download/v4.44.2/yq_linux_amd64' -o '/usr/local/bin/yq'
-        yq '.librarian-image-sha' internal/automation/prod/repositories.yaml > /workspace/librarian_image_sha.txt
+      - '.librarian-image-sha'
+      - internal/automation/prod/repositories.yaml > /workspace/librarian_image_sha.txt
   - id: test-generate
     name: bash
     waitFor: ['get-librarian-image-sha']
