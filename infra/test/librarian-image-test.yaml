@@ -31,18 +31,18 @@ steps:
     args:
       - -c
       - |
-        IMAGE_SHA=$(yq '.librarian-image-sha' internal/automation/prod/repositories.yaml)
-        export IMAGE_SHA
+        _IMAGE_SHA=$(yq '.librarian-image-sha' internal/automation/prod/repositories.yaml)
+        export _IMAGE_SHA
     env:
-      - IMAGE_SHA
+      - _IMAGE_SHA
   - id: test-generate
-    name: 'us-central1-docker.pkg.dev/cloud-sdk-librarian-prod/images-prod/librarian@$IMAGE_SHA'
+    name: 'us-central1-docker.pkg.dev/cloud-sdk-librarian-prod/images-prod/librarian@$_IMAGE_SHA'
     waitFor: ['get-librarian-image-sha']
     args:
       - 'generate'
       - '--help'
   - id: test-release-stage
-    name: 'us-central1-docker.pkg.dev/cloud-sdk-librarian-prod/images-prod/librarian@$IMAGE_SHA'
+    name: 'us-central1-docker.pkg.dev/cloud-sdk-librarian-prod/images-prod/librarian@$_IMAGE_SHA'
     waitFor: [ 'get-librarian-image-sha' ]
     args:
       - 'release'
