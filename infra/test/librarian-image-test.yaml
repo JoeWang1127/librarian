@@ -43,5 +43,27 @@ steps:
           --rm \
           us-central1-docker.pkg.dev/librarian-dev-joewa-u0cll5/images-dev/librarian@$(cat /workspace/librarian_image_sha.txt) \
           release stage --help
+  - id: test-release-tag
+    name: gcr.io/cloud-builders/docker
+    entrypoint: bash
+    waitFor: [ 'get-librarian-image-sha' ]
+    args:
+      - -c
+      - |
+        docker run \
+          --rm \
+          us-central1-docker.pkg.dev/librarian-dev-joewa-u0cll5/images-dev/librarian@$(cat /workspace/librarian_image_sha.txt) \
+          release tag --help
+  - id: test-unknown
+    name: gcr.io/cloud-builders/docker
+    entrypoint: bash
+    waitFor: [ 'get-librarian-image-sha' ]
+    args:
+      - -c
+      - |
+        docker run \
+          --rm \
+          us-central1-docker.pkg.dev/librarian-dev-joewa-u0cll5/images-dev/librarian@$(cat /workspace/librarian_image_sha.txt) \
+          unknown --help
 options:
   logging: CLOUD_LOGGING_ONLY
