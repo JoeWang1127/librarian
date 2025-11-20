@@ -22,20 +22,22 @@ steps:
         yq --version
         yq '.librarian-image-sha' internal/automation/prod/repositories.yaml > /workspace/librarian_image_sha.txt
   - id: test-generate
-    name: bash
+    name: gcr.io/cloud-builders/docker
+    entrypoint: bash
     waitFor: ['get-librarian-image-sha']
     args:
       - -c
       - |
         _IMAGE_SHA=$(cat /workspace/librarian_image_sha.txt)
-        docker run "us-central1-docker.pkg.dev/cloud-sdk-librarian-prod/images-prod/librarian@${_IMAGE_SHA}" generate --help
+        docker run "us-central1-docker.pkg.dev/librarian-dev-joewa-u0cll5/images-dev/librarian@${_IMAGE_SHA}" generate --help
   - id: test-release-stage
-    name: bash
+    name: gcr.io/cloud-builders/docker
+    entrypoint: bash
     waitFor: [ 'get-librarian-image-sha' ]
     args:
       - -c
       - |
         _IMAGE_SHA=$(cat /workspace/librarian_image_sha.txt)
-        docker run "us-central1-docker.pkg.dev/cloud-sdk-librarian-prod/images-prod/librarian@${_IMAGE_SHA}" release stage --help
+        docker run "us-central1-docker.pkg.dev/librarian-dev-joewa-u0cll5/images-dev/librarian@${_IMAGE_SHA}" release stage --help
 options:
   logging: CLOUD_LOGGING_ONLY
