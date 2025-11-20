@@ -39,7 +39,9 @@ steps:
     args:
       - -c
       - |
+        cat /workspace/librarian_image_sha.txt
         _IMAGE_SHA=$(cat /workspace/librarian_image_sha.txt | tr -d '[:space:]')
+        echo "Image SHA: $_IMAGE_SHA"
         docker run --rm "us-central1-docker.pkg.dev/librarian-dev-joewa-u0cll5/images-dev/librarian@${_IMAGE_SHA}" release stage --help
 options:
   logging: CLOUD_LOGGING_ONLY
