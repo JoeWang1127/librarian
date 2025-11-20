@@ -12,27 +12,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 steps:
-  - id: 'install-yq'
-    name: 'gcr.io/cloud-builders/curl'
-    waitFor: ['-']
-    args:
-      - 'https://github.com/mikefarah/yq/releases/download/v4.44.2/yq_linux_amd64' # Get the latest Linux binary
-      - '-o'
-      - '/usr/local/bin/yq' # Save it to a directory on the PATH
-#  - name: bash
-#    waitFor: ['install-yq']
-#    args:
-#      - 'chmod'
-#      - '+x'
-#      - '/usr/local/bin/yq'
   - id: get-librarian-image-sha
     name: bash
-    waitFor: ['install-yq']
+    waitFor: ['-']
     args:
-      - -c
+      - '-c'
       - |
-        _IMAGE_SHA=$(yq '.librarian-image-sha' internal/automation/prod/repositories.yaml)
-        echo "$_IMAGE_SHA" > /workspace/librarian_image_sha.txt
+        curl 'https://github.com/mikefarah/yq/releases/download/v4.44.2/yq_linux_amd64' -o '/usr/local/bin/yq'
+        yq '.librarian-image-sha' internal/automation/prod/repositories.yaml > /workspace/librarian_image_sha.txt
   - id: test-generate
     name: bash
     waitFor: ['get-librarian-image-sha']
