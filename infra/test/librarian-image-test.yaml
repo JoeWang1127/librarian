@@ -31,8 +31,8 @@ steps:
     args:
       - -c
       - |
-        _IMAGE_SHA=$(yq '.librarian-image-sha' internal/automation/prod/repositories.yaml)
-        echo "$_IMAGE_SHA" > /workspace/librarian_image_sha.txt
+        IMAGE_SHA=$(yq '.librarian-image-sha' internal/automation/prod/repositories.yaml)
+        echo "$IMAGE_SHA" > /workspace/librarian_image_sha.txt
   - id: test-generate
     name: bash
     waitFor: ['get-librarian-image-sha']
