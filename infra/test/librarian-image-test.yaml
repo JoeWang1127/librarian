@@ -48,3 +48,5 @@ steps:
       - 'release'
       - 'stage'
       - '--help'
+options:
+  logging: CLOUD_LOGGING_ONLY
