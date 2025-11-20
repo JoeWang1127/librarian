@@ -12,12 +12,21 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 steps:
-  - id: get-librarian-image-sha
-    name: mikefarah/yq:4
-    waitFor: ['-']
+  - id: install-yq
+    name: gcr.io/cloud-builders/wget
     args:
-      - '.librarian-image-sha'
-      - internal/automation/prod/repositories.yaml > /workspace/librarian_image_sha.txt
+      - '-qO'
+      - '/usr/local/bin/yq'
+      - 'https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64'
+  - id: get-librarian-image-sha
+    name: 'gcr.io/cloud-builders/bash'
+    waitFor: ['install-yq']
+    args:
+      - '-c'
+      - |
+        chmod +x /usr/local/bin/yq
+        yq --version
+        yq '.librarian-image-sha' internal/automation/prod/repositories.yaml > /workspace/librarian_image_sha.txt
   - id: test-generate
     name: bash
     waitFor: ['get-librarian-image-sha']
