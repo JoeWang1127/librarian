@@ -32,21 +32,22 @@ steps:
       - -c
       - |
         _IMAGE_SHA=$(yq '.librarian-image-sha' internal/automation/prod/repositories.yaml)
-        export _IMAGE_SHA
-    env:
-      - _IMAGE_SHA
+        echo "$_IMAGE_SHA" > /workspace/librarian_image_sha.txt
   - id: test-generate
-    name: 'us-central1-docker.pkg.dev/cloud-sdk-librarian-prod/images-prod/librarian@$_IMAGE_SHA'
+    name: bash
     waitFor: ['get-librarian-image-sha']
     args:
-      - 'generate'
-      - '--help'
+      - -c
+      - |
+        IMAGE_SHA=$(cat /workspace/librarian_image_sha.txt)
+        docker run "us-central1-docker.pkg.dev/cloud-sdk-librarian-prod/images-prod/librarian@${IMAGE_SHA}" generate --help
   - id: test-release-stage
-    name: 'us-central1-docker.pkg.dev/cloud-sdk-librarian-prod/images-prod/librarian@$_IMAGE_SHA'
+    name: bash
     waitFor: [ 'get-librarian-image-sha' ]
     args:
-      - 'release'
-      - 'stage'
-      - '--help'
+      - -c
+      - |
+        IMAGE_SHA=$(cat /workspace/librarian_image_sha.txt)
+        docker run "us-central1-docker.pkg.dev/cloud-sdk-librarian-prod/images-prod/librarian@${IMAGE_SHA}" release stage --help
 options:
   logging: CLOUD_LOGGING_ONLY
