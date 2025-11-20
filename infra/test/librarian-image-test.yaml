@@ -30,7 +30,7 @@ steps:
       - |
         docker run \
           --rm \
-          us-central1-docker.pkg.dev/librarian-dev-joewa-u0cll5/images-dev/librarian@${cat /workspace/librarian_image_sha.txt} \
+          us-central1-docker.pkg.dev/librarian-dev-joewa-u0cll5/images-dev/librarian@$(cat /workspace/librarian_image_sha.txt) \
           generate --help
   - id: test-release-stage
     name: gcr.io/cloud-builders/docker
@@ -41,7 +41,7 @@ steps:
       - |
         docker run \
           --rm \
-          us-central1-docker.pkg.dev/librarian-dev-joewa-u0cll5/images-dev/librarian@${cat /workspace/librarian_image_sha.txt} \
+          us-central1-docker.pkg.dev/librarian-dev-joewa-u0cll5/images-dev/librarian@$(cat /workspace/librarian_image_sha.txt) \
           release stage --help
 options:
   logging: CLOUD_LOGGING_ONLY
