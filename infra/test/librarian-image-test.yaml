@@ -21,6 +21,7 @@ steps:
         chmod +x /usr/local/bin/yq
         yq --version
         yq -r '.librarian-image-sha' internal/automation/prod/repositories.yaml > /workspace/librarian_image_sha.txt
+        cat /workspace/librarian_image_sha.txt
   - id: test-generate
     name: gcr.io/cloud-builders/docker
     entrypoint: bash
@@ -29,6 +30,7 @@ steps:
       - -c
       - |
         _IMAGE_SHA=$(cat /workspace/librarian_image_sha.txt | tr -d '[:space:]')
+        echo "Image SHA: $_IMAGE_SHA"
         docker run --rm "us-central1-docker.pkg.dev/librarian-dev-joewa-u0cll5/images-dev/librarian@${_IMAGE_SHA}" generate --help
   - id: test-release-stage
     name: gcr.io/cloud-builders/docker
